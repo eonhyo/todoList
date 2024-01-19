@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css"
-
+import BoxContents from "./component/BoxContents"
+import AddButton from "./component/AddButton";
 function App() {
   const [header, setHeader] = useState("");
   const [contents, setContents] = useState("");
@@ -26,26 +27,27 @@ function App() {
     setContents('');
   }
 
-  // Working 삭제버튼
+  // 삭제버튼
   const clickRemoveButtonHandler = (id)=> {
     
     if(todoList.isDone === true){
-  const removeTodoList = todoList.filter((todoList) =>
-    todoList.id !== id )
-    setTodoList(removeTodoList)
+  const removeTodoListDone = todoList.filter((todoList) =>
+     todoList.id !== id )
+    setTodoList(removeTodoListDone)
     }
   
     if(todoList.isDone !== true){
-    const removeTodoList2 = todoList.filter((todoList) =>
+    const removeTodoListWorking = todoList.filter((todoList) =>
     todoList.id !== id )
-    setTodoList(removeTodoList2)
-  }}
+    setTodoList(removeTodoListWorking)
+  }
+}
   
 //  완료 취소 버튼
  
 const clickSetButtonHandler = (id) => {
-  const updatedTodoList = todoList.map((todo) =>
-    todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
+  const updatedTodoList = todoList.map((item) =>
+  item.id === id ? { ...item, isDone: !item.isDone } : item
   );
   setTodoList(updatedTodoList);
 };
@@ -74,7 +76,7 @@ const clickSetButtonHandler = (id) => {
         onChange={(event) => changeContents(event)}
       ></input>
       </div>
-      <button className="addBtn" onClick={clickAddHandler}>추가하기</button>
+      <AddButton clickAddHandler={clickAddHandler}/>
       </div>
 
     
@@ -84,20 +86,11 @@ const clickSetButtonHandler = (id) => {
       <div className="workingBox">
       {todoList.map((item)=>{
         return !item.isDone ? (
-          <div className="todoList" key={item.id}>
-          <div >
-          <div className="todoListHeader">{item.header}</div>
-
-          <div className="todoListContents">{item.contents}</div>   
-          <div className="todoListButton"> 
-          <button className="deleteBtn" onClick={()=>{clickRemoveButtonHandler(item.id)}}>삭제하기</button>
-          <button className="setBtn" onClick={() => clickSetButtonHandler(item.id)}>
-        {item.isDone ? "취소": "완료"}
-      </button>
-      </div> 
-          </div>
-          </div>
-          
+          <BoxContents 
+          key={item.id}
+          item={item}
+          clickRemoveButtonHandler={clickRemoveButtonHandler} 
+          clickSetButtonHandler={clickSetButtonHandler} />
         ): null
 
       })}
@@ -107,20 +100,11 @@ const clickSetButtonHandler = (id) => {
       <div className="doneBox">     
        {todoList.map((item)=>{
         return item.isDone ?(
-       
-          <div className="todoList" key={item.id}>
-           <div >
-          <div className="todoListHeader">{item.header}</div>
-
-          <div className="todoListContents">{item.contents}</div>   
-          <div className="todoListButton"> 
-          <button className="deleteBtn" onClick={()=>{clickRemoveButtonHandler(item.id)}}>삭제하기</button>
-          <button className="setBtn" onClick={() => clickSetButtonHandler(item.id)}>
-        {item.isDone ? "취소": "완료"}
-      </button>
-      </div> 
-          </div>
-          </div>
+       <BoxContents 
+       key={item.id}
+       item={item}
+       clickRemoveButtonHandler={clickRemoveButtonHandler} 
+       clickSetButtonHandler={clickSetButtonHandler} />
         ):null
       })
 
@@ -132,5 +116,6 @@ const clickSetButtonHandler = (id) => {
     </div>
   );
 }
+
 
 export default App;
