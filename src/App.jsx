@@ -5,7 +5,6 @@ function App() {
   const [header, setHeader] = useState("");
   const [contents, setContents] = useState("");
   const [todoList, setTodoList]= useState([]);
-  const [doneList, setDoneList]= useState([]);
 
 
   // 제목 입력
@@ -20,95 +19,44 @@ function App() {
   // 추가버튼 
   const clickAddHandler = () =>{   
     const addTodoList = {
-      id : todoList.length+1 , header, contents, isDone : true
+      id : todoList.length+1 , header, contents, isDone : false
     }
     setTodoList([...todoList, addTodoList])
     setHeader('');
     setContents('');
   }
 
-
-
- 
-
-
   // Working 삭제버튼
   const clickRemoveButtonHandler = (id)=> {
     
-    // if(todoList.isDone === true){
-
-    // }
-    const removeTodoList = todoList.filter((todoList) =>
+    if(todoList.isDone === true){
+  const removeTodoList = todoList.filter((todoList) =>
     todoList.id !== id )
     setTodoList(removeTodoList)
-
-    const removeTodoList2 = doneList.filter((doneList) =>
-    doneList.id !== id )
-    setDoneList(removeTodoList2)
-  }
+    }
   
-
-  // Working 완료버튼
-  // const clickClearButtonHandler = (id) => {
-  // console.log("됨?")
-  // const clearTotoList = todoList.filter((todoList)=>
-  // todoList.id === id)
-  //   setDoneList([...doneList, ...clearTotoList])
-    
-  //   const deleteTodoList = todoList.filter((todoList) =>
-  //   todoList.id !== id )
-  //   setTodoList(deleteTodoList)
-  // };
-  // Done 삭제버튼
-  // const clickClearRemoveButtonHandler = (id)=> {
-  //   const removeTodoList2 = doneList.filter((doneList) =>
-  //   doneList.id !== id )
-  //   setDoneList(removeTodoList2)
-  // }
-
-  // Done 취소버튼
-  // const clickCancelButtonHandler = (id) => {
-  //   console.log("됨?")
-  //   const CancelTotoList = doneList.filter((doneList)=>
-  //   doneList.id === id)
-  //   setTodoList([...todoList, ...CancelTotoList])
-    
-  //   const deleteDoneTodoList = doneList.filter((doneList) =>
-  //   doneList.id !== id )
-  //   setDoneList(deleteDoneTodoList)
-  // };
-
+    if(todoList.isDone !== true){
+    const removeTodoList2 = todoList.filter((todoList) =>
+    todoList.id !== id )
+    setTodoList(removeTodoList2)
+  }}
+  
 //  완료 취소 버튼
-  const clickSetButtonHandler = (id) =>{
-    alert("야 됐냐")
-    // if(todoList.isDone === true){
-    todoList.isDone = !todoList.isDone;
-    const moveTodoList = todoList.filter((todoList)=>
-    todoList.id === id)
-    setDoneList([...doneList, ...moveTodoList])
-    const removeTodoList = todoList.filter((todoList) =>
-    todoList.id !== id )
-    setTodoList(removeTodoList)
-  // }
-  // if(todoList.isDone !== false){
-  //   todoList.isDone = !todoList.isDone;
-  //   const CancelTotoList = doneList.filter((doneList)=>
-  //   doneList.id === id)
-  //   setTodoList([...todoList, ...CancelTotoList])
-  //   const deleteDoneTodoList = doneList.filter((doneList) =>
-  //   doneList.id !== id )
-  //   setDoneList(deleteDoneTodoList)
-  //   }
-  
-  }
-    
+ 
+const clickSetButtonHandler = (id) => {
+  const updatedTodoList = todoList.map((todo) =>
+    todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
+  );
+  setTodoList(updatedTodoList);
+};
     
   
 
   return (
     <div className="page">
     <div className="layout">
-      <div className="header"><h1>My Todo List</h1> <h2>React</h2></div>
+      <div className="header"><h1>My Todo List</h1> <h2>React</h2>
+      </div>
    
    <div className="navBar">
     <div className="inputBar">   
@@ -132,49 +80,54 @@ function App() {
     
 
       <div>
-        <div className="working">Working</div>
+        <div className="working">Working...</div>
       <div className="workingBox">
       {todoList.map((item)=>{
-        return (
-          <div className="todoList">
-          <div key={item.id}>
+        return !item.isDone ? (
+          <div className="todoList" key={item.id}>
+          <div >
           <div className="todoListHeader">{item.header}</div>
 
           <div className="todoListContents">{item.contents}</div>   
           <div className="todoListButton"> 
           <button className="deleteBtn" onClick={()=>{clickRemoveButtonHandler(item.id)}}>삭제하기</button>
           <button className="setBtn" onClick={() => clickSetButtonHandler(item.id)}>
-        {item.isDone ? "완료": "취소"}
+        {item.isDone ? "취소": "완료"}
       </button>
       </div> 
           </div>
           </div>
           
-        )
+        ): null
 
       })}
       </div>
       </div>
-      <div className="done">Done</div>
-      {doneList.map((item)=>{
-        return (
-          <div className="todoList">
-          <div key={item.id}>
+      <div className="done">Done...</div>
+      <div className="doneBox">     
+       {todoList.map((item)=>{
+        return item.isDone ?(
+       
+          <div className="todoList" key={item.id}>
+           <div >
           <div className="todoListHeader">{item.header}</div>
 
           <div className="todoListContents">{item.contents}</div>   
           <div className="todoListButton"> 
           <button className="deleteBtn" onClick={()=>{clickRemoveButtonHandler(item.id)}}>삭제하기</button>
           <button className="setBtn" onClick={() => clickSetButtonHandler(item.id)}>
-          {item.isDone ? "완료": "취소"}
+        {item.isDone ? "취소": "완료"}
       </button>
       </div> 
           </div>
           </div>
-          
-        )
+        ):null
+      })
 
-      })}
+      }
+      </div>
+
+  
     </div>
     </div>
   );

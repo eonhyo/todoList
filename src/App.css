@@ -69,15 +69,18 @@
 }
 
 .todoListHeader {
-  background-color: green;
   width: 280px;
-  margin: 10px 20px auto auto;
+  height: 50px;
+  margin: 10px 10px auto auto;
+  font-size: 28px;
+  font-weight: 550;
 }
 
 .todoListContents {
   width: 280px;
-  height: 100px;
-  margin: auto 20px auto auto;
+  height: 70px;
+  margin: 10px 10px auto auto;
+  font-size: 24px;
 }
 
 .todoListButton {
@@ -86,17 +89,20 @@
   justify-content: center;
 }
 .todoListButton > button {
-  margin: auto 10px auto 10px;
-  background-color: white;
+  color: white;
+  font-weight: 700;
+  margin: 10px 10px auto 10px;
 }
 .deleteBtn {
-  border: 2px solid #d63484;
+  border: none;
+  background-color: #d63484;
   border-radius: 6px;
   width: 100px;
   height: 30px;
 }
 .setBtn {
-  border: 2px solid #7bd3ea;
+  background-color: #7bd3ea;
+  border: none;
   border-radius: 6px;
   width: 100px;
   height: 30px;
@@ -104,4 +110,9 @@
 .done {
   font-size: 30px;
   font-style: italic;
+}
+
+.doneBox {
+  display: flex;
+  margin-top: 10px;
 }
