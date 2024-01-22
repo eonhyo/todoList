@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./App.css"
 import BoxContents from "./component/BoxContents"
 import AddButton from "./component/AddButton";
+import "./reset.css"
 function App() {
   const [header, setHeader] = useState("");
   const [contents, setContents] = useState("");
@@ -96,7 +97,7 @@ const clickSetButtonHandler = (id) => {
       })}
       </div>
       </div>
-      <div className="done">Done...</div>
+      <div className="done">Done!!!</div>
       <div className="doneBox">     
        {todoList.map((item)=>{
         return item.isDone ?(
