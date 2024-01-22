@@ -16,4 +16,5 @@ const BoxContents = ({item, clickRemoveButtonHandler, clickSetButtonHandler}) =>
     )
   }
   
+
   export default BoxContents
