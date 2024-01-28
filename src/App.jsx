@@ -3,10 +3,12 @@ import "./App.css"
 import BoxContents from "./component/BoxContents"
 import AddButton from "./component/AddButton";
 import "./reset.css"
+
 function App() {
   const [header, setHeader] = useState("");
   const [contents, setContents] = useState("");
   const [todoList, setTodoList]= useState([]);
+  const [date, setDate] = useState("");
 
 
   // 제목 입력
@@ -17,11 +19,15 @@ function App() {
   const changeContents = (event) => {
     setContents(event.target.value);
   };
+  // 마감날짜 입력
+  const changeDate = (event) =>{
+    setDate(event.target.value)
+  }
 
   // 추가버튼 
   const clickAddHandler = () =>{   
     const addTodoList = {
-      id : todoList.length+1 , header, contents, isDone : false
+      id : todoList.length+1 , header, contents, date,  isDone : false
     }
     setTodoList([...todoList, addTodoList])
     setHeader('');
@@ -58,10 +64,10 @@ const clickSetButtonHandler = (id) => {
   return (
     <div className="page">
     <div className="layout">
-      <div className="header"><h1>My Todo List</h1> <h2>React</h2>
-      </div>
+      <header className="header"><h1>My Todo List</h1> <h2>React</h2>
+      </header>
    
-   <div className="navBar">
+   <nav className="navBar">
     <div className="inputBar">   
       <input
        placeholder="제목"
@@ -77,19 +83,23 @@ const clickSetButtonHandler = (id) => {
         onChange={(event) => changeContents(event)}
       ></input>
       </div>
-      <AddButton clickAddHandler={clickAddHandler}/>
-      </div>
-
+    <section className="deadLineSection">
+    마감날짜<input type="date"
+    onChange={(event)=> changeDate(event)}>
+    </input>    
+    </section>
+     <AddButton clickAddHandler={clickAddHandler}/>
+ </nav>
     
 
       <div>
-        <div className="working">Working...</div>
+        <p className="working">Working...</p>
       <div className="workingBox">
       {todoList.map((item)=>{
         return !item.isDone ? (
           <BoxContents 
           key={item.id}
-          item={item}
+          item={item}         
           clickRemoveButtonHandler={clickRemoveButtonHandler} 
           clickSetButtonHandler={clickSetButtonHandler} />
         ): null
