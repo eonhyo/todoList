@@ -9,6 +9,7 @@ function App() {
   const [contents, setContents] = useState("");
   const [todoList, setTodoList]= useState([]);
   const [date, setDate] = useState("");
+  const [deadLineSort, setDeadLineSort] = useState("asc");
 
 
   // 제목 입력
@@ -58,6 +59,23 @@ const clickSetButtonHandler = (id) => {
   );
   setTodoList(updatedTodoList);
 };
+
+// 정렬 기능
+const handleSortChange = (event) => {
+  setDeadLineSort(event.target.value);
+  sortTodoList(event.target.value);
+};
+
+const sortTodoList = (order) => {
+  const sortedList = [...todoList].sort((a, b) => {
+    if (order === "asc") {
+      return new Date(a.date) - new Date(b.date);
+    } else {
+      return new Date(b.date) - new Date(a.date);
+    }
+  });
+  setTodoList(sortedList);
+};
     
   
 
@@ -93,7 +111,16 @@ const clickSetButtonHandler = (id) => {
     
 
       <div>
-        <p className="working">Working...</p>
+        <div className="workingHead">
+        <p className="working">Working...</p> 
+        <select   
+        className="sortByTodoList" 
+        value={deadLineSort} 
+        onChange={handleSortChange}>
+        <option value="asc">오름차순</option>
+        <option value="desc">내림차순</option>
+      </select>
+      </div>
       <div className="workingBox">
       {todoList.map((item)=>{
         return !item.isDone ? (

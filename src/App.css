@@ -80,14 +80,22 @@
 
 /* Working 부분 */
 .working {
-  margin: 20px auto 20px auto;
   font-size: 30px;
   font-style: italic;
+}
+.workingHead {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px auto 20px auto;
 }
 .workingBox {
   display: flex;
   margin-top: 10px;
 }
+.sortByTodoList {
+  border-radius: 6px;
+}
+
 /* 생성되는 todoList */
 .todoList {
   width: 300px;
@@ -132,7 +140,7 @@
 .todoListButton > button {
   color: white;
   font-weight: 700;
-  margin: 10px 10px auto 10px;
+  margin: 10px 10px 15px 10px;
 }
 .deleteBtn {
   border: none;
