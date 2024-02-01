@@ -1,8 +1,19 @@
 import React, { useState } from "react";
 import "./App.css"
-import BoxContents from "./component/BoxContents"
-import AddButton from "./component/AddButton";
+import TodoList from "./component/TodoList"
 import "./reset.css"
+import InputField from"./component/InputFiled"
+import TodoListHeader from "./component/TodoListHeader"
+import GlobalStyle from "./component/GlobalStyle"
+import styled from "styled-components";
+
+const STPage = styled.div`
+    display: flex;
+  justify-content: center;
+`
+const STLayout = styled.div`
+  width: 1200px;
+  height: 800px;`
 
 function App() {
   const [header, setHeader] = useState("");
@@ -33,6 +44,8 @@ function App() {
     setTodoList([...todoList, addTodoList])
     setHeader('');
     setContents('');
+    setDate("");
+
   }
 
   // 삭제버튼
@@ -79,79 +92,35 @@ const sortTodoList = (order) => {
     
   
 
-  return (
-    <div className="page">
-    <div className="layout">
-      <header className="header"><h1>My Todo List</h1> <h2>React</h2>
-      </header>
+  return (<>
+  <GlobalStyle/>
+    <STPage>
+    <STLayout>
+      <TodoListHeader/>
    
-   <nav className="navBar">
-    <div className="inputBar">   
-      <input
-       placeholder="제목"
-        type="text"
-        value={header}
-        onChange={(event) => changeHeader(event)}
-      ></input>
-    
-      <input
-        placeholder="내용"
-        type="text"
-        value={contents}
-        onChange={(event) => changeContents(event)}
-      ></input>
-      </div>
-    <section className="deadLineSection">
-    마감날짜<input type="date"
-    onChange={(event)=> changeDate(event)}>
-    </input>    
-    </section>
-     <AddButton clickAddHandler={clickAddHandler}/>
- </nav>
+ 
+   <InputField
+            header={header}
+            contents={contents}
+            date={date}
+            changeHeader={changeHeader}
+            changeContents={changeContents}
+            changeDate={changeDate}
+            clickAddHandler={clickAddHandler}
+          />
+         
+
     
 
-      <div>
-        <div className="workingHead">
-        <p className="working">Working...</p> 
-        <select   
-        className="sortByTodoList" 
-        value={deadLineSort} 
-        onChange={handleSortChange}>
-        <option value="asc">오름차순</option>
-        <option value="desc">내림차순</option>
-      </select>
-      </div>
-      <div className="workingBox">
-      {todoList.map((item)=>{
-        return !item.isDone ? (
-          <BoxContents 
-          key={item.id}
-          item={item}         
-          clickRemoveButtonHandler={clickRemoveButtonHandler} 
-          clickSetButtonHandler={clickSetButtonHandler} />
-        ): null
-
-      })}
-      </div>
-      </div>
-      <div className="done">Done!!!</div>
-      <div className="doneBox">     
-       {todoList.map((item)=>{
-        return item.isDone ?(
-       <BoxContents 
-       key={item.id}
-       item={item}
-       clickRemoveButtonHandler={clickRemoveButtonHandler} 
-       clickSetButtonHandler={clickSetButtonHandler} />
-        ):null
-      })
-
-      }
-      </div>
-
-  
-    </div>
-    </div>
+         <TodoList
+        todoList={todoList}
+        clickRemoveButtonHandler={clickRemoveButtonHandler}
+        clickSetButtonHandler={clickSetButtonHandler}
+        deadLineSort={deadLineSort} 
+        handleSortChange={handleSortChange}
+      />
+    </STLayout>
+    </STPage></>
   );
 }
 
