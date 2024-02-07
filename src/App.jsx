@@ -1,19 +1,14 @@
 import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import "./App.css"
 import TodoList from "./component/TodoList"
 import "./reset.css"
 import InputField from"./component/InputFiled"
 import TodoListHeader from "./component/TodoListHeader"
 import GlobalStyle from "./component/GlobalStyle"
-import styled from "styled-components";
+import {STPage, STLayout} from "./component/css"
+import TodoDetails from "./component/Detail/TodoDetails"; 
 
-const STPage = styled.div`
-    display: flex;
-  justify-content: center;
-`
-const STLayout = styled.div`
-  width: 1200px;
-  height: 800px;`
 
 function App() {
   const [header, setHeader] = useState("");
@@ -41,6 +36,7 @@ function App() {
     const addTodoList = {
       id : todoList.length+1 , header, contents, date,  isDone : false
     }
+    
     setTodoList([...todoList, addTodoList])
     setHeader('');
     setContents('');
@@ -92,11 +88,12 @@ const sortTodoList = (order) => {
     
   
 
-  return (<>
+  return (<Router>
   <GlobalStyle/>
     <STPage>
     <STLayout>
-      <TodoListHeader/>
+      <Routes>
+        <Route path="/" element={ <><TodoListHeader/>
    
  
    <InputField
@@ -110,8 +107,6 @@ const sortTodoList = (order) => {
           />
          
 
-    
-
          <TodoList
         todoList={todoList}
         clickRemoveButtonHandler={clickRemoveButtonHandler}
@@ -119,8 +114,13 @@ const sortTodoList = (order) => {
         deadLineSort={deadLineSort} 
         handleSortChange={handleSortChange}
       />
+      </>}/>
+      <Route path="/todo/:todoId" element={<TodoDetails todoList={todoList} />} />
+     
+      </Routes>
     </STLayout>
-    </STPage></>
+    </STPage>
+    </Router>
   );
 }
 
